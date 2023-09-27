@@ -1,19 +1,21 @@
-public class InputValidation {
-    public static boolean isValidAmount(double amount) {
-        return amount > 0 && amount < 1000;
-    }
+public class InputValidation{
 
-    /**
-     * @param category
-     * @return
-     */
+    public static boolean isValidAmount(double amount){
+        try {
+            return amount > 0 && amount < 1000;
+        } 
+        catch (NumberFormatException e) {
+            return false;
+        }
+    }
     public static boolean isValidCategory(String category) {
         String[] validCategories = {"food", "travel", "bills", "entertainment", "other"};
-        for (String validCategory : validCategories) {
-            if (validCategory.equalsIgnoreCase(category)) {
+        for (String input : validCategories) {
+            if (category.equalsIgnoreCase(input)) {
                 return true;
             }
         }
         return false;
     }
+
 }
