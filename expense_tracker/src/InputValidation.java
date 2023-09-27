@@ -1,21 +1,18 @@
-public class InputValidation{
+import java.util.Arrays;
+import java.util.List;
 
-    public static boolean isValidAmount(double amount){
-        try {
-            return amount > 0 && amount < 1000;
-        } 
-        catch (NumberFormatException e) {
-            return false;
-        }
+public class InputValidation{
+    //Define the maximum and minimum transaction amount 
+    private static double minAmount = 0;
+    private static double maxAmount = 1000;
+
+    public boolean validateAmount(double amount) {
+        return (amount >= minAmount) && (amount <= maxAmount);
     }
-    public static boolean isValidCategory(String category) {
-        String[] validCategories = {"food", "travel", "bills", "entertainment", "other"};
-        for (String input : validCategories) {
-            if (category.equalsIgnoreCase(input)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isValidCategory(String category){
+        //Define list of valid categories 
+        List<String> listOfValidCategories = Arrays.asList("food", "travel", "bills", "entertainment", "other");
+        return listOfValidCategories.contains(category);
     }
 
 }

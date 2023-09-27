@@ -1,3 +1,4 @@
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,6 +18,8 @@ public class ExpenseTrackerApp {
 
     
     ExpenseTrackerView view = new ExpenseTrackerView(tableModel);
+    // Create an instance of InputValidation
+    InputValidation inputValidation = new InputValidation(); 
 
     // Initialize view
     view.setVisible(true);
@@ -25,29 +28,19 @@ public class ExpenseTrackerApp {
     view.getAddTransactionBtn().addActionListener(e -> {
       
       // Get transaction data from view
-      String amountStr = view.getAmountField()
+      double amount = view.getAmountField();
       String category = view.getCategoryField();
-      
-      // Validate the amount input
-      if (!InputValidation.isDouble(amountStr)) {
-        view.showErrorMessage("Invalid amount. Please enter a valid number.");
-        return; // Exit the action if the amount is not a valid number
-      }
-      
-      double amount = Double.parseDouble(amountStr);
+      // Use InputValidation to validate the inputs
+        if (inputValidation.validateAmount(amount) && inputValidation.isValidCategory(category)) {
+            // Create a transaction object
+            Transaction t = new Transaction(amount, category);
 
-    // Validate the category input
-    if (!InputValidation.isValidCategory(category)) {
-        view.showErrorMessage("Invalid category. Please enter a valid category (food, travel, bills, entertainment, other).");
-        return; // Exit the action if the category is not valid
-      }
-      // Create transaction object
-      Transaction t = new Transaction(amount, category);
-
-      // Call controller to add transaction
-      view.addTransaction(t);
+            // Call the controller to add transaction
+            view.addTransaction(t);
+        } else {
+          // Display error message to user in case of invalid input
+          JOptionPane.showMessageDialog(view, "Invalid input. Please check your amount and category.");
+        }
     });
-
-  }
-
+}
 }
